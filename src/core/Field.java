@@ -1,6 +1,5 @@
 package core;
 
-import java.util.Random;
 
 import static core.TileState.FULL;
 
@@ -9,34 +8,32 @@ public class Field {
 
     private int row;
     private int column;
-    private Tile[][] tiles;
-    public Tile[][] objectTile1;
-    public Tile[][] objectTile2;
-    public Tile[][] objectTile3;
-    public Tile[][] objectTile4;
-    public Tile[][] objectTile5;
+    private final Tile[][] tiles;
+    private final Tile[][] objectTileA;
+    private final Tile[][] objectTileB;
+    private final Tile[][] objectTileC;
+    private final Tile[][] objectTileD;
+    private final Tile[][] objectTileE;
 
 
     public Field(int row, int column) {
         this.row = row;
         this.column = column;
         tiles = new Tile[row][column];
-        objectTile1 = new Tile[row][column];
-        objectTile2 = new Tile[row][column];
-        objectTile3 = new Tile[row][column];
-        objectTile4 = new Tile[row][column];
-        objectTile5 = new Tile[row][column];
+        objectTileA = new Tile[row][column];
+        objectTileB = new Tile[row][column];
+        objectTileC = new Tile[row][column];
+        objectTileD = new Tile[row][column];
+        objectTileE = new Tile[row][column];
         generate();
     }
 
     private void generate() {
         generateEmptyField(tiles);
-        tiles[0][0] = new ObjectTile('A');
-        tiles[0][1] = new ObjectTile('B');
         generateObjectTile();
     }
 
-    private void generateEmptyField(Tile tile[][]) {
+    private void generateEmptyField(Tile[][] tile) {
         for (int x = 0; x < row; x++) {
             for(int y = 0; y < column; y++) {
                 tile[x][y] = new EmptyTile();
@@ -46,11 +43,11 @@ public class Field {
     }
 
     private void generateObjectTile() {
-        generateEmptyField(objectTile1);
-        generateEmptyField(objectTile2);
-        generateEmptyField(objectTile3);
-        generateEmptyField(objectTile4);
-        generateEmptyField(objectTile5);
+        generateEmptyField(objectTileA);
+        generateEmptyField(objectTileB);
+        generateEmptyField(objectTileC);
+        generateEmptyField(objectTileD);
+        generateEmptyField(objectTileE);
         /*int count = 0;
 
         int solved1 = 0;
@@ -108,43 +105,43 @@ public class Field {
             generateEmptyField(tiles);
         }*/
         // object A
-        objectTile1[1][2] = new ObjectTile('A');
-        objectTile1[1][3] = new ObjectTile('A');
-        objectTile1[1][1] = new ObjectTile('A');
-        objectTile1[2][1] = new ObjectTile('A');
-        objectTile1[3][1] = new ObjectTile('A');
-        objectTile1[3][2] = new ObjectTile('A');
+        objectTileA[1][2] = new ObjectTile('A');
+        objectTileA[1][3] = new ObjectTile('A');
+        objectTileA[1][1] = new ObjectTile('A');
+        objectTileA[2][1] = new ObjectTile('A');
+        objectTileA[3][1] = new ObjectTile('A');
+        objectTileA[3][2] = new ObjectTile('A');
         // object A
 
         //object B
-        objectTile2[2][2] = new ObjectTile('B');
-        objectTile2[2][1] = new ObjectTile('B');
-        objectTile2[2][3] = new ObjectTile('B');
+        objectTileB[2][2] = new ObjectTile('B');
+        objectTileB[2][1] = new ObjectTile('B');
+        objectTileB[2][3] = new ObjectTile('B');
         //object B
 
         //object C
-        objectTile3[2][2] = new ObjectTile('C');
-        objectTile3[1][2] = new ObjectTile('C');
-        objectTile3[0][2] = new ObjectTile('C');
-        objectTile3[0][1] = new ObjectTile('C');
-        objectTile3[3][2] = new ObjectTile('C');
-        objectTile3[4][2] = new ObjectTile('C');
-        objectTile3[3][1] = new ObjectTile('C');
+        objectTileC[2][2] = new ObjectTile('C');
+        objectTileC[1][2] = new ObjectTile('C');
+        objectTileC[0][2] = new ObjectTile('C');
+        objectTileC[0][1] = new ObjectTile('C');
+        objectTileC[3][2] = new ObjectTile('C');
+        objectTileC[4][2] = new ObjectTile('C');
+        objectTileC[3][1] = new ObjectTile('C');
         //object C
 
         //object D
-        objectTile4[2][2] = new ObjectTile('D');
-        objectTile4[2][1] = new ObjectTile('D');
-        objectTile4[2][3] = new ObjectTile('D');
-        objectTile4[2][4] = new ObjectTile('D');
+        objectTileD[2][2] = new ObjectTile('D');
+        objectTileD[2][1] = new ObjectTile('D');
+        objectTileD[2][3] = new ObjectTile('D');
+        objectTileD[2][4] = new ObjectTile('D');
         //object D
 
         //object E
-        objectTile5[2][2] = new ObjectTile('E');
-        objectTile5[2][1] = new ObjectTile('E');
-        objectTile5[2][0] = new ObjectTile('E');
-        objectTile5[1][2] = new ObjectTile('E');
-        objectTile5[1][3] = new ObjectTile('E');
+        objectTileE[2][2] = new ObjectTile('E');
+        objectTileE[2][1] = new ObjectTile('E');
+        objectTileE[2][0] = new ObjectTile('E');
+        objectTileE[1][2] = new ObjectTile('E');
+        objectTileE[1][3] = new ObjectTile('E');
         //object E
 
         //objectTile1[2][4] = new ObjectTile('A');
@@ -178,18 +175,20 @@ public class Field {
         return false;
     }
 
-    private boolean isSolved() {
+    public boolean isSolved() {
         for(int x = 0; x < row; x++){
             for(int y = 0; y < column; y++){
                 if(tiles[x][y] instanceof EmptyTile){
-                    return false;
+                    return true;
                 }
             }
         }
-        return true;
+        System.out.println("YOU WIN, I KNOW IT");
+        state = GameState.SOLVED;
+        return false;
     }
 
-    public void move(int plantX, int plantY, Tile fullTile[][]){
+    public void move(int plantX, int plantY, Tile[][] fullTile){
         for(int x = 0; x < row; x++) {
             for (int y = 0; y < column; y++) {
                 if(!(fullTile[x][y] instanceof EmptyTile)){
@@ -215,15 +214,15 @@ public class Field {
                         rememberY = y;
                         count++;
                     }else{
-                        if(tiles[plantX + (x - rememberX)][plantY + (y - rememberY)] instanceof ObjectTile){            // osetrenie ineho id
-                            clean(tiles, ((ObjectTile) fullTile[x][y]).getId());
-                            return;
-                        }
                         if(plantX + (x - rememberX) <= -1 || plantX + (x - rememberX) >= row){                          // osetrenie mimo pola
                             clean(tiles, ((ObjectTile) fullTile[x][y]).getId());
                             return;
                         }
                         if(plantY + (y - rememberY) <= -1 || plantY + (y - rememberY) >= column){                       // osetrenie mimo pola
+                            clean(tiles, ((ObjectTile) fullTile[x][y]).getId());
+                            return;
+                        }
+                        if(tiles[plantX + (x - rememberX)][plantY + (y - rememberY)] instanceof ObjectTile){            // osetrenie ineho id
                             clean(tiles, ((ObjectTile) fullTile[x][y]).getId());
                             return;
                         }
@@ -242,6 +241,19 @@ public class Field {
                 }
             }
         }
+    }
+    public boolean UselessObject(char id) {
+        for(int row = 0; row < getRow(); row++){
+            for(int column = 0; column < getColumn(); column++){
+                if (!(tiles[row][column] instanceof EmptyTile) && id == ((ObjectTile) tiles[row][column]).getId()) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+    public void remove_object(Tile[][] tile){
+        move(row,column,tile);
     }
 
 
@@ -265,23 +277,19 @@ public class Field {
         return tiles[row][column];
     }
 
-    public Tile getObjectTile(int row, int column) {
-        return objectTile1[row][column];
+    public Tile[][] getObjectA() {
+        return objectTileA;
     }
-
-    public Tile[][] getObject1() {
-        return objectTile1;
+    public Tile[][] getObjectB() {
+        return objectTileB;
     }
-    public Tile[][] getObject2() {
-        return objectTile2;
+    public Tile[][] getObjectC() {
+        return objectTileC;
     }
-    public Tile[][] getObject3() {
-        return objectTile3;
+    public Tile[][] getObjectD() {
+        return objectTileD;
     }
-    public Tile[][] getObject4() {
-        return objectTile4;
-    }
-    public Tile[][] getObject5() {
-        return objectTile5;
+    public Tile[][] getObjectE() {
+        return objectTileE;
     }
 }

@@ -9,7 +9,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Console {
-    private static final Pattern COMMAND_PATTERN = Pattern.compile("([ABCDEX]) to ([A-E])([1-5])");
+    private static final Pattern COMMAND_PATTERN = Pattern.compile("([RM])([ABCDE])([A-E])([1-5])");
 
     private final Field field;
 
@@ -21,14 +21,31 @@ public class Console {
     }
 
     public void play(){
+        do{
+            printField();
+            printUselessObject();
+            userInput();
+        }while (field.isSolved());
+
         printField();
-        printObject(field.getObject1());
-        printObject(field.getObject2());
-        printObject(field.getObject3());
-        printObject(field.getObject4());
-        printObject(field.getObject5());
-        field.move(0,1,field.getObject1());
-        printField();
+    }
+
+    private void printUselessObject(){
+        if(field.UselessObject('A')){
+            printObject(field.getObjectA());
+        }
+        if(field.UselessObject('B')){
+            printObject(field.getObjectB());
+        }
+        if(field.UselessObject('C')){
+            printObject(field.getObjectC());
+        }
+        if(field.UselessObject('D')){
+            printObject(field.getObjectD());
+        }
+        if(field.UselessObject('E')){
+            printObject(field.getObjectE());
+        }
     }
 
     private void printObject(Tile tile[][]) {
@@ -67,7 +84,7 @@ public class Console {
     }
 
     private void userInput(){
-       /* System.out.print("Enter command (X - exit, A to A1 - move: ");
+        System.out.print("Enter command (X - exit, RBA1 - remove B from A1, MAA1 - move A to A1: ");
         String line = scanner.nextLine().toUpperCase();
         if ("X".equals(line))
             System.exit(0);
@@ -75,16 +92,42 @@ public class Console {
         Matcher matcher = COMMAND_PATTERN.matcher(line);
         if (matcher.matches()) {
             int row = line.charAt(1) - 'A';
-            int column = Integer.parseInt(matcher.group(3)) - 1;
+            int column = Integer.parseInt(matcher.group(4)) - 1;
 
-            if (matcher.group(1).equals("O")) {
-                field.openTile(row, column);
-            } else if (line.startsWith("M")) {
-                field.markTile(row, column);
+
+            if (matcher.group(2).equals("A")) {
+                if(matcher.group(1).equals("R")){
+                    field.remove_object(field.getObjectA());
+                }else
+                field.move(row, column, field.getObjectA());
             }
-        } else {
+            if (matcher.group(2).equals("B")) {
+                if(matcher.group(1).equals("R")){
+                    field.remove_object(field.getObjectB());
+                }else
+                field.move(row, column, field.getObjectB());
+            }
+            if (matcher.group(2).equals("C")) {
+                if(matcher.group(1).equals("R")){
+                    field.remove_object(field.getObjectC());
+                }else
+                field.move(row, column, field.getObjectC());
+            }
+            if (matcher.group(2).equals("D")) {
+                if(matcher.group(1).equals("R")){
+                    field.remove_object(field.getObjectD());
+                }else
+                field.move(row, column, field.getObjectD());
+            }
+            if (matcher.group(2).equals("E")) {
+                if(matcher.group(1).equals("R")){
+                    field.remove_object(field.getObjectE());
+                }else
+                field.move(row, column, field.getObjectE());
+            }
+        }else {
             System.err.println("Wrong input " + line);
-        }*/
+        }
 
 
     }
