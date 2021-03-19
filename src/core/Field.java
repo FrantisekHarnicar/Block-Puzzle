@@ -292,4 +292,8 @@ public class Field {
     public Tile[][] getObjectE() {
         return objectTileE;
     }
+
+    public GameState getState() {
+        return state;
+    }
 }

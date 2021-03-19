@@ -1,6 +1,7 @@
 package console;
 
 import core.Field;
+import core.GameState;
 import core.ObjectTile;
 import core.Tile;
 
@@ -25,7 +26,7 @@ public class Console {
             printField();
             printUselessObject();
             userInput();
-        }while (field.isSolved());
+        }while (field.getState() == GameState.PLAYING);
 
         printField();
     }
@@ -90,10 +91,10 @@ public class Console {
             System.exit(0);
 
         Matcher matcher = COMMAND_PATTERN.matcher(line);
-        if (matcher.matches()) {
-            int row = line.charAt(1) - 'A';
-            int column = Integer.parseInt(matcher.group(4)) - 1;
 
+        if (matcher.matches()) {
+            int row = line.charAt(2) - 'A';
+            int column = Integer.parseInt(matcher.group(4)) - 1;
 
             if (matcher.group(2).equals("A")) {
                 if(matcher.group(1).equals("R")){
