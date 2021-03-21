@@ -1,5 +1,7 @@
-import console.Console;
-import core.Field;
+package game;
+
+import game.blockPuzzle.console.Console;
+import game.blockPuzzle.core.Field;
 
 public class Main {
     public static void main(String[] args) {

@@ -1,13 +1,21 @@
-package core;
+package game.blockPuzzle.core;
 
 
-import static core.TileState.FULL;
+import game.blockPuzzle.console.Console;
+import game.service.GamestudioException;
+
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+
+import static game.blockPuzzle.core.TileState.FULL;
 
 public class Field {
     private GameState state = GameState.PLAYING;
+    private static final String FIELD_FILE = "level.bin";
 
-    private int row;
-    private int column;
+    private int rowCount;
+    private int columnCount;
     private final Tile[][] tiles;
     private final Tile[][] objectTileA;
     private final Tile[][] objectTileB;
@@ -16,17 +24,22 @@ public class Field {
     private final Tile[][] objectTileE;
 
 
-    public Field(int row, int column) {
-        this.row = row;
-        this.column = column;
-        tiles = new Tile[row][column];
-        objectTileA = new Tile[row][column];
-        objectTileB = new Tile[row][column];
-        objectTileC = new Tile[row][column];
-        objectTileD = new Tile[row][column];
-        objectTileE = new Tile[row][column];
+    public Field(int rowCount, int columnCount) {
+        this.rowCount = rowCount;
+        this.columnCount = columnCount;
+        tiles = new Tile[rowCount][columnCount];
+        objectTileA = new Tile[rowCount][columnCount];
+        objectTileB = new Tile[rowCount][columnCount];
+        objectTileC = new Tile[rowCount][columnCount];
+        objectTileD = new Tile[rowCount][columnCount];
+        objectTileE = new Tile[rowCount][columnCount];
         generate();
     }
+
+    public int getScore() {
+        return rowCount * columnCount * 4 - (int) (System.currentTimeMillis() - Console.getTime()) / 1000;
+    }
+
 
     private void generate() {
         generateEmptyField(tiles);
@@ -34,8 +47,8 @@ public class Field {
     }
 
     private void generateEmptyField(Tile[][] tile) {
-        for (int x = 0; x < row; x++) {
-            for(int y = 0; y < column; y++) {
+        for (int x = 0; x < rowCount; x++) {
+            for(int y = 0; y < columnCount; y++) {
                 tile[x][y] = new EmptyTile();
             }
         }
@@ -154,13 +167,13 @@ public class Field {
                 return true;
             }
         }
-        if(rowNeighbor != row-1) {
+        if(rowNeighbor != rowCount -1) {
             Tile tileDOWN = tiles[rowNeighbor + 1][columnNeighbor];
             if (tileDOWN != null && !(tileDOWN instanceof EmptyTile) && ((ObjectTile) tileDOWN).getId() == id) {
                 return true;
             }
         }
-        if(columnNeighbor != column-1) {
+        if(columnNeighbor != columnCount -1) {
             Tile tileRIGHT = tiles[rowNeighbor][columnNeighbor + 1];
             if (tileRIGHT != null && !(tileRIGHT instanceof EmptyTile) && ((ObjectTile) tileRIGHT).getId() == id) {
                 return true;
@@ -175,9 +188,9 @@ public class Field {
         return false;
     }
 
-    public boolean isSolved() {
-        for(int x = 0; x < row; x++){
-            for(int y = 0; y < column; y++){
+    private boolean isSolved() {
+        for(int x = 0; x < rowCount; x++){
+            for(int y = 0; y < columnCount; y++){
                 if(tiles[x][y] instanceof EmptyTile){
                     return true;
                 }
@@ -189,20 +202,20 @@ public class Field {
     }
 
     public void move(int plantX, int plantY, Tile[][] fullTile){
-        for(int x = 0; x < row; x++) {
-            for (int y = 0; y < column; y++) {
+        for(int x = 0; x < rowCount; x++) {
+            for (int y = 0; y < columnCount; y++) {
                 if(!(fullTile[x][y] instanceof EmptyTile)){
                     clean(tiles, ((ObjectTile)fullTile[x][y]).getId());
                 }
             }
         }
-        if(plantX <= -1 || plantX >= row) return;
-        if(plantY <= -1 || plantY >= column) return;
+        if(plantX <= -1 || plantX >= rowCount) return;
+        if(plantY <= -1 || plantY >= columnCount) return;
         int count = 0;
         int rememberX = 0;
         int rememberY = 0;
-        for(int x = 0; x < row; x++){
-            for(int y = 0; y < column; y++){
+        for(int x = 0; x < rowCount; x++){
+            for(int y = 0; y < columnCount; y++){
                 if(fullTile[x][y].getState() == FULL){
                     if(count == 0) {
                         if(tiles[plantX][plantY]  instanceof ObjectTile){            // osetrenie ineho id
@@ -214,11 +227,11 @@ public class Field {
                         rememberY = y;
                         count++;
                     }else{
-                        if(plantX + (x - rememberX) <= -1 || plantX + (x - rememberX) >= row){                          // osetrenie mimo pola
+                        if(plantX + (x - rememberX) <= -1 || plantX + (x - rememberX) >= rowCount){                          // osetrenie mimo pola
                             clean(tiles, ((ObjectTile) fullTile[x][y]).getId());
                             return;
                         }
-                        if(plantY + (y - rememberY) <= -1 || plantY + (y - rememberY) >= column){                       // osetrenie mimo pola
+                        if(plantY + (y - rememberY) <= -1 || plantY + (y - rememberY) >= columnCount){                       // osetrenie mimo pola
                             clean(tiles, ((ObjectTile) fullTile[x][y]).getId());
                             return;
                         }
@@ -233,9 +246,9 @@ public class Field {
         }
     }
 
-    public void clean(Tile tile[][], char id){
-        for(int x = 0; x < row; x++) {
-            for (int y = 0; y < column; y++) {
+    private void clean(Tile tile[][], char id){
+        for(int x = 0; x < rowCount; x++) {
+            for (int y = 0; y < columnCount; y++) {
                 if (!(tile[x][y] instanceof EmptyTile) && id == ((ObjectTile) tile[x][y]).getId()) {
                     tile[x][y] = new EmptyTile();
                 }
@@ -243,8 +256,8 @@ public class Field {
         }
     }
     public boolean UselessObject(char id) {
-        for(int row = 0; row < getRow(); row++){
-            for(int column = 0; column < getColumn(); column++){
+        for(int row = 0; row < getRowCount(); row++){
+            for(int column = 0; column < getColumnCount(); column++){
                 if (!(tiles[row][column] instanceof EmptyTile) && id == ((ObjectTile) tiles[row][column]).getId()) {
                     return false;
                 }
@@ -253,24 +266,32 @@ public class Field {
         return true;
     }
     public void remove_object(Tile[][] tile){
-        move(row,column,tile);
+        move(rowCount, columnCount,tile);
+    }
+
+    public void save() {
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(FIELD_FILE))) {
+            oos.writeObject(this);
+        } catch (IOException e) {
+            throw new GamestudioException("Error saving field", e);
+        }
     }
 
 
-    public int getColumn() {
-        return column;
+    public int getColumnCount() {
+        return columnCount;
     }
 
-    public void setColumn(int columnCount) {
-        this.column = columnCount;
+    public void setColumnCount(int columnCount) {
+        this.columnCount = columnCount;
     }
 
-    public int getRow() {
-        return row;
+    public int getRowCount() {
+        return rowCount;
     }
 
-    public void setRow(int row) {
-        this.row = row;
+    public void setRowCount(int rowCount) {
+        this.rowCount = rowCount;
     }
 
     public Tile getTile(int row, int column) {
@@ -294,6 +315,7 @@ public class Field {
     }
 
     public GameState getState() {
+        isSolved();
         return state;
     }
 }
