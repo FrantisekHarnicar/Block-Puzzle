@@ -11,13 +11,13 @@ import java.text.ParseException;
 public class TestMain {
     public static void main(String[] args) {
         JSONParser parser = new JSONParser();
-        try{
+        try {
             Object obj = parser.parse(new FileReader("src/main/java/game/levels/Levels.json"));
             JSONObject jsonObject = (JSONObject) obj;
             String stringIterator;
             int objCount = Integer.parseInt(jsonObject.get("objectCount").toString());
 
-            for(int i = 1; i < objCount+1; i++ ) {
+            for (int i = 1; i < objCount + 1; i++) {
                 stringIterator = String.valueOf(i);
                 JSONObject jsonObject1 = (JSONObject) jsonObject.get(stringIterator);
                 int objCount1 = Integer.parseInt(jsonObject1.get("objectCount").toString());
@@ -27,11 +27,11 @@ public class TestMain {
             System.out.println(obj);
             System.out.println(jsonObject);
 
-        }catch (FileNotFoundException e) {
+        } catch (FileNotFoundException e) {
             e.printStackTrace();
-        }catch (IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
-        }catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

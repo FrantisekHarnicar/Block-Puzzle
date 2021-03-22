@@ -1,6 +1,7 @@
 package game.service;
 
 import game.entity.Score;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -30,7 +31,7 @@ public class ScoreServiceJDBC implements ScoreService {
     }
 
     @Override
-    public List<Score> getTopScores(String game){
+    public List<Score> getTopScores(String game) {
         try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
              PreparedStatement statement = connection.prepareStatement(SELECT)
         ) {

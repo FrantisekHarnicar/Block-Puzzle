@@ -19,8 +19,9 @@ public class RatingServiceTest {
         int ratings = service.getRating("BlockPuzzle", "Jaro");
         assertEquals(2, ratings);
     }
+
     @Test
-    public void testGetAverageRating(){
+    public void testGetAverageRating() {
         RatingService service = new RatingServiceJDBC();
         service.reset();
         Date date = new Date();
@@ -35,7 +36,7 @@ public class RatingServiceTest {
     }
 
     @Test
-    public void testGetRatingDifferentGame(){
+    public void testGetRatingDifferentGame() {
         RatingService service = new RatingServiceJDBC();
         service.reset();
         Date date = new Date();
@@ -47,7 +48,7 @@ public class RatingServiceTest {
     }
 
     @Test
-    public void testSamePlayerRating(){
+    public void testSamePlayerRating() {
         RatingService service = new RatingServiceJDBC();
         service.reset();
         Date date = new Date();

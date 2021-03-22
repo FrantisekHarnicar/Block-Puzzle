@@ -54,7 +54,7 @@ public class Field {
 
     private void generateEmptyField(Tile[][] tile) {
         for (int x = 0; x < rowCount; x++) {
-            for(int y = 0; y < columnCount; y++) {
+            for (int y = 0; y < columnCount; y++) {
                 tile[x][y] = new EmptyTile();
             }
         }
@@ -69,11 +69,11 @@ public class Field {
         generateEmptyField(objectTileE);
 
         JSONParser parser = new JSONParser();
-        try{
+        try {
             Object obj = parser.parse(new FileReader("src/main/java/game/levels/Levels.json"));
             JSONObject jsonObject = (JSONObject) obj;
             JSONObject lvl;
-            switch (level){
+            switch (level) {
                 case 2 -> lvl = (JSONObject) jsonObject.get("lvl2");
                 case 3 -> lvl = (JSONObject) jsonObject.get("lvl3");
                 case 4 -> lvl = (JSONObject) jsonObject.get("lvl4");
@@ -84,7 +84,7 @@ public class Field {
             String stringIterator;
             int objCount = Integer.parseInt(lvl.get("objectCount").toString());
 
-            for(int i = 1; i < objCount+1; i++ ) {
+            for (int i = 1; i < objCount + 1; i++) {
                 stringIterator = String.valueOf(i);
                 JSONObject jsonObject1 = (JSONObject) lvl.get(stringIterator);
                 int objCount1 = Integer.parseInt(jsonObject1.get("objectCount").toString());
@@ -92,10 +92,10 @@ public class Field {
                 JSONArray arrayColumn = (JSONArray) jsonObject1.get("column");
                 int row;
                 int column;
-                for(int x = 0; x < objCount1; x++){
+                for (int x = 0; x < objCount1; x++) {
                     row = Integer.parseInt(arrayRow.get(x).toString());
                     column = Integer.parseInt(arrayColumn.get(x).toString());
-                    switch (i){
+                    switch (i) {
                         case 1 -> objectTileA[row][column] = new ObjectTile('A');
                         case 2 -> objectTileB[row][column] = new ObjectTile('B');
                         case 3 -> objectTileC[row][column] = new ObjectTile('C');
@@ -105,20 +105,20 @@ public class Field {
                 }
             }
 
-        }catch (FileNotFoundException e) {
+        } catch (FileNotFoundException e) {
             e.printStackTrace();
-        }catch (IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
-        }catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
 
     private void isSolved() {
-        for(int x = 0; x < rowCount; x++){
-            for(int y = 0; y < columnCount; y++){
-                if(tiles[x][y] instanceof EmptyTile){
+        for (int x = 0; x < rowCount; x++) {
+            for (int y = 0; y < columnCount; y++) {
+                if (tiles[x][y] instanceof EmptyTile) {
                     return;
                 }
             }
@@ -126,24 +126,24 @@ public class Field {
         state = GameState.SOLVED;
     }
 
-    public void move(int plantX, int plantY, Tile[][] fullTile){
-        for(int x = 0; x < rowCount; x++) {
+    public void move(int plantX, int plantY, Tile[][] fullTile) {
+        for (int x = 0; x < rowCount; x++) {
             for (int y = 0; y < columnCount; y++) {
-                if(!(fullTile[x][y] instanceof EmptyTile)){
-                    clean(tiles, ((ObjectTile)fullTile[x][y]).getId());
+                if (!(fullTile[x][y] instanceof EmptyTile)) {
+                    clean(tiles, ((ObjectTile) fullTile[x][y]).getId());
                 }
             }
         }
-        if(plantX <= -1 || plantX >= rowCount) return;
-        if(plantY <= -1 || plantY >= columnCount) return;
+        if (plantX <= -1 || plantX >= rowCount) return;
+        if (plantY <= -1 || plantY >= columnCount) return;
         int count = 0;
         int rememberX = 0;
         int rememberY = 0;
-        for(int x = 0; x < rowCount; x++){
-            for(int y = 0; y < columnCount; y++){
-                if(fullTile[x][y].getState() == FULL){
-                    if(count == 0) {
-                        if(tiles[plantX][plantY]  instanceof ObjectTile){            // osetrenie ineho id
+        for (int x = 0; x < rowCount; x++) {
+            for (int y = 0; y < columnCount; y++) {
+                if (fullTile[x][y].getState() == FULL) {
+                    if (count == 0) {
+                        if (tiles[plantX][plantY] instanceof ObjectTile) {            // osetrenie ineho id
                             clean(tiles, ((ObjectTile) fullTile[x][y]).getId());
                             return;
                         }
@@ -151,16 +151,16 @@ public class Field {
                         rememberX = x;
                         rememberY = y;
                         count++;
-                    }else{
-                        if(plantX + (x - rememberX) <= -1 || plantX + (x - rememberX) >= rowCount){                          // osetrenie mimo pola
+                    } else {
+                        if (plantX + (x - rememberX) <= -1 || plantX + (x - rememberX) >= rowCount) {                          // osetrenie mimo pola
                             clean(tiles, ((ObjectTile) fullTile[x][y]).getId());
                             return;
                         }
-                        if(plantY + (y - rememberY) <= -1 || plantY + (y - rememberY) >= columnCount){                       // osetrenie mimo pola
+                        if (plantY + (y - rememberY) <= -1 || plantY + (y - rememberY) >= columnCount) {                       // osetrenie mimo pola
                             clean(tiles, ((ObjectTile) fullTile[x][y]).getId());
                             return;
                         }
-                        if(tiles[plantX + (x - rememberX)][plantY + (y - rememberY)] instanceof ObjectTile){            // osetrenie ineho id
+                        if (tiles[plantX + (x - rememberX)][plantY + (y - rememberY)] instanceof ObjectTile) {            // osetrenie ineho id
                             clean(tiles, ((ObjectTile) fullTile[x][y]).getId());
                             return;
                         }
@@ -171,8 +171,8 @@ public class Field {
         }
     }
 
-    private void clean(Tile[][] tile, char id){
-        for(int x = 0; x < rowCount; x++) {
+    private void clean(Tile[][] tile, char id) {
+        for (int x = 0; x < rowCount; x++) {
             for (int y = 0; y < columnCount; y++) {
                 if (!(tile[x][y] instanceof EmptyTile) && id == ((ObjectTile) tile[x][y]).getId()) {
                     tile[x][y] = new EmptyTile();
@@ -180,9 +180,10 @@ public class Field {
             }
         }
     }
+
     public boolean UselessObject(char id) {
-        for(int row = 0; row < getRowCount(); row++){
-            for(int column = 0; column < getColumnCount(); column++){
+        for (int row = 0; row < getRowCount(); row++) {
+            for (int column = 0; column < getColumnCount(); column++) {
                 if (!(tiles[row][column] instanceof EmptyTile) && id == ((ObjectTile) tiles[row][column]).getId()) {
                     return false;
                 }
@@ -190,17 +191,11 @@ public class Field {
         }
         return true;
     }
-    public void remove_object(Tile[][] tile){
-        move(rowCount, columnCount,tile);
+
+    public void remove_object(Tile[][] tile) {
+        move(rowCount, columnCount, tile);
     }
 
-    public int getLevel() {
-        return level;
-    }
-
-    public void setLevel(int level) {
-        this.level = level;
-    }
 
     public int getColumnCount() {
         return columnCount;
@@ -219,15 +214,19 @@ public class Field {
     public Tile[][] getObjectA() {
         return objectTileA;
     }
+
     public Tile[][] getObjectB() {
         return objectTileB;
     }
+
     public Tile[][] getObjectC() {
         return objectTileC;
     }
+
     public Tile[][] getObjectD() {
         return objectTileD;
     }
+
     public Tile[][] getObjectE() {
         return objectTileE;
     }

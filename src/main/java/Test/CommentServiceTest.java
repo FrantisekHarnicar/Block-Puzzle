@@ -54,10 +54,10 @@ public class CommentServiceTest {
 
         assertEquals(4, comment.size());
 
-        assertEquals("hala bala",comment.get(0).getComment());
-        assertEquals("dusky",comment.get(1).getPlayer());
-        assertEquals("BlockPuzzle",comment.get(2).getGame());
-        assertEquals("pisem pisem rozpravku",comment.get(3).getComment());
+        assertEquals("hala bala", comment.get(0).getComment());
+        assertEquals("dusky", comment.get(1).getPlayer());
+        assertEquals("BlockPuzzle", comment.get(2).getGame());
+        assertEquals("pisem pisem rozpravku", comment.get(3).getComment());
     }
 
 }

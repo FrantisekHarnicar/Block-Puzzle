@@ -37,19 +37,23 @@ public class Console {
     private int score = 0;
 
 
-    public Console (Field field){
+    public Console(Field field) {
         this.field = field;
     }
 
-    public void play(){
+    public void play() {
+        System.out.println("Top score.");
         printTopScores();
         System.out.println("---------------------------------");
         userName();
         System.out.println("---------------------------------");
-        startTime = System.currentTimeMillis();
+
 
         do {
+            startTime = System.currentTimeMillis();
+
             do {
+                System.out.println(score);
                 System.out.println("LEVEL: " + nextLevel);
                 printField();
                 System.out.println("---------------------------------");
@@ -60,7 +64,7 @@ public class Console {
             printField();
             System.out.println("---------------------------------");
             nextLevel++;
-        }while (nextLevel());
+        } while (nextLevel());
         writeScore();
         System.out.println("---------------------------------");
         printTopScores();
@@ -74,21 +78,21 @@ public class Console {
     }
 
     private boolean nextLevel() {
-        if(nextLevel == LEVELS+1){
+        if (nextLevel == LEVELS + 1) {
             System.out.println("You WIN this game!!! Congratulate.");
             return false;
         }
-        score =+ field.getScore();
+        score += field.getScore();
         System.out.println("Your score: " + score);
         System.out.print("Next level(Y/N): ");
         String line = scanner.nextLine().toUpperCase();
         Matcher matcher = YES_OR_NO_PATTERN.matcher(line);
-        if(matcher.matches()) {
+        if (matcher.matches()) {
             if ("Y".equals(line)) {
                 field = new Field(nextLevel);
                 return true;
 
-            }else {
+            } else {
                 System.out.println("OK. As you want.");
             }
         }
@@ -96,24 +100,24 @@ public class Console {
         return false;
     }
 
-    public static long getTime(){
+    public static long getTime() {
         return startTime;
     }
 
-    private void printUselessObject(){
-        if(field.UselessObject('A')){
+    private void printUselessObject() {
+        if (field.UselessObject('A')) {
             printObject(field.getObjectA());
         }
-        if(field.UselessObject('B')){
+        if (field.UselessObject('B')) {
             printObject(field.getObjectB());
         }
-        if(field.UselessObject('C')){
+        if (field.UselessObject('C')) {
             printObject(field.getObjectC());
         }
-        if(field.UselessObject('D')){
+        if (field.UselessObject('D')) {
             printObject(field.getObjectD());
         }
-        if(field.UselessObject('E')){
+        if (field.UselessObject('E')) {
             printObject(field.getObjectE());
         }
     }
@@ -153,7 +157,7 @@ public class Console {
         }
     }
 
-    private void userInput(){
+    private void userInput() {
         System.out.print("Enter command (X - exit, RBA1 - remove B from A1, MAA1 - move A to A1: ");
         String line = scanner.nextLine().toUpperCase();
         if ("X".equals(line))
@@ -166,46 +170,47 @@ public class Console {
             int column = Integer.parseInt(matcher.group(4)) - 1;
 
             if (matcher.group(2).equals("A")) {
-                if(matcher.group(1).equals("R")){
+                if (matcher.group(1).equals("R")) {
                     System.out.println("Remove object A");
                     field.remove_object(field.getObjectA());
-                }else
-                field.move(row, column, field.getObjectA());
+                } else
+                    field.move(row, column, field.getObjectA());
             }
             if (matcher.group(2).equals("B")) {
-                if(matcher.group(1).equals("R")){
+                if (matcher.group(1).equals("R")) {
                     System.out.println("Remove object B");
                     field.remove_object(field.getObjectB());
-                }else
-                field.move(row, column, field.getObjectB());
+                } else
+                    field.move(row, column, field.getObjectB());
             }
             if (matcher.group(2).equals("C")) {
-                if(matcher.group(1).equals("R")){
+                if (matcher.group(1).equals("R")) {
                     System.out.println("Remove object C");
                     field.remove_object(field.getObjectC());
-                }else
-                field.move(row, column, field.getObjectC());
+                } else
+                    field.move(row, column, field.getObjectC());
             }
             if (matcher.group(2).equals("D")) {
-                if(matcher.group(1).equals("R")){
+                if (matcher.group(1).equals("R")) {
                     System.out.println("Remove object D");
                     field.remove_object(field.getObjectD());
-                }else
-                field.move(row, column, field.getObjectD());
+                } else
+                    field.move(row, column, field.getObjectD());
             }
             if (matcher.group(2).equals("E")) {
-                if(matcher.group(1).equals("R")){
+                if (matcher.group(1).equals("R")) {
                     System.out.println("Remove object E");
                     field.remove_object(field.getObjectE());
-                }else
-                field.move(row, column, field.getObjectE());
+                } else
+                    field.move(row, column, field.getObjectE());
             }
-        }else {
+        } else {
             System.err.println("Wrong input " + line);
         }
 
 
     }
+
     private void printTopScores() {
         List<Score> scores = scoreService.getTopScores(GAME_NAME);
         for (Score score : scores) {
@@ -213,85 +218,86 @@ public class Console {
         }
     }
 
-    private void userName(){
+    private void userName() {
         System.out.print("Enter name(1-10 number or later): ");
         String line = scanner.nextLine();
         Matcher matcher = NAME_PATTERN.matcher(line);
-        if (matcher.matches()){
+        if (matcher.matches()) {
             userName = line;
-        }else {
+        } else {
             System.err.println("Wrong name " + line);
             userName();
         }
     }
-    private void writeScore(){
+
+    private void writeScore() {
         ScoreService service = new ScoreServiceJDBC();
         service.addScore(new Score(GAME_NAME, userName, score, date));
     }
 
-    private void userChoiceComment(){
+    private void userChoiceComment() {
         System.out.print("Would you want write some comment?(Y/N): ");
         String orLine = scanner.nextLine().toUpperCase();
         Matcher orMatcher = YES_OR_NO_PATTERN.matcher(orLine);
-        if(orMatcher.matches()){
-            if("Y".equals(orLine)){
+        if (orMatcher.matches()) {
+            if ("Y".equals(orLine)) {
                 userComment();
-            }else{
+            } else {
                 return;
             }
-        }else {
+        } else {
             System.err.println("Wrong chance " + orLine);
             userChoiceComment();
         }
     }
 
-    private void userComment(){
+    private void userComment() {
         System.out.print("Write some comment: ");
         userComment = scanner.nextLine();
         writeComment();
     }
 
-    private void writeComment(){
+    private void writeComment() {
         CommentService service = new CommentServiceJDBC();
         service.addComment(new Comment(GAME_NAME, userName, userComment, date));
         System.out.println("Thanks for your comment");
     }
 
-    private void printComment(){
+    private void printComment() {
         List<Comment> comments = commentService.getComments(GAME_NAME);
         for (Comment comment : comments) {
             System.out.printf("%s %s\n", comment.getPlayer(), comment.getComment());
         }
     }
 
-    private void userChoiceRating(){
+    private void userChoiceRating() {
         RatingService ratingService = new RatingServiceJDBC();
         System.out.println("Average rating is " + ratingService.getAverageRating(GAME_NAME));
         System.out.print("Would you want take some rating?(Y/N): ");
         String orLine = scanner.nextLine().toUpperCase();
         Matcher orMatcher = YES_OR_NO_PATTERN.matcher(orLine);
-        if(orMatcher.matches()){
-            if("Y".equals(orLine)){
+        if (orMatcher.matches()) {
+            if ("Y".equals(orLine)) {
                 userRating();
-            }else{
+            } else {
                 return;
             }
-        }else {
+        } else {
             System.err.println("Wrong chance " + orLine);
             userChoiceRating();
         }
     }
 
-    private void userRating(){
+    private void userRating() {
         System.out.print("Chose number 1-bad/5-really good: ");
         String rating = scanner.nextLine();
         Matcher matcher = RATING_PATTERN.matcher(rating);
-        if(matcher.matches()){
+        if (matcher.matches()) {
             int ratingInt = Integer.parseInt(matcher.group(1));
             RatingService ratingService = new RatingServiceJDBC();
             ratingService.setRating(new Rating(GAME_NAME, userName, ratingInt, date));
             System.out.println("Thanks for your rating.");
-        }else {
+        } else {
             System.err.println("Wrong rating " + rating);
             userRating();
         }

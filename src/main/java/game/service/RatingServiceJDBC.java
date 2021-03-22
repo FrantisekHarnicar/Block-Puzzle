@@ -5,7 +5,7 @@ import game.entity.Rating;
 import java.sql.*;
 
 
-public class RatingServiceJDBC implements RatingService{
+public class RatingServiceJDBC implements RatingService {
     public static final String URL = "jdbc:postgresql://localhost/gamestudio";
     public static final String USER = "postgres";
     public static final String PASSWORD = "123456789";
@@ -39,11 +39,11 @@ public class RatingServiceJDBC implements RatingService{
             try (ResultSet rs = statement.executeQuery()) {
                 double avg = 0;
                 double count = 0;
-                while(rs.next()){
+                while (rs.next()) {
                     avg = avg + rs.getInt(1);
                     count++;
                 }
-                double result =  (avg/count) +0.5;
+                double result = (avg / count) + 0.5;
                 return (int) result;
             }
         } catch (SQLException e) {
@@ -59,8 +59,8 @@ public class RatingServiceJDBC implements RatingService{
             statement.setString(1, game);
             try (ResultSet rs = statement.executeQuery()) {
                 while (rs.next()) {
-                    if(game.equals(rs.getString(1)) && player.equals(rs.getString(2))){
-                        return  rs.getInt(3);
+                    if (game.equals(rs.getString(1)) && player.equals(rs.getString(2))) {
+                        return rs.getInt(3);
                     }
                 }
                 return 0;

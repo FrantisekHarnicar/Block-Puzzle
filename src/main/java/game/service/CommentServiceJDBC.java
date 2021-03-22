@@ -7,13 +7,14 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CommentServiceJDBC implements CommentService{
+public class CommentServiceJDBC implements CommentService {
     public static final String URL = "jdbc:postgresql://localhost/gamestudio";
     public static final String USER = "postgres";
     public static final String PASSWORD = "123456789";
     public static final String SELECT = "SELECT game, player, comment, commentedOn FROM comment WHERE game = ? ORDER BY commentedOn ASC LIMIT 10";
     public static final String DELETE = "DELETE FROM comment";
     public static final String INSERT = "INSERT INTO comment (game, player, comment, commentedOn) VALUES (?, ?, ?, ?)";
+
     @Override
     public void addComment(Comment comment) throws CommentException {
         try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
@@ -30,7 +31,7 @@ public class CommentServiceJDBC implements CommentService{
     }
 
     @Override
-    public List<Comment> getComments(String game) throws CommentException{
+    public List<Comment> getComments(String game) throws CommentException {
         try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
              PreparedStatement statement = connection.prepareStatement(SELECT)
         ) {
