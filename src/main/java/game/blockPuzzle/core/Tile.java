@@ -1,5 +1,6 @@
 package game.blockPuzzle.core;
 
+
 public abstract class Tile {
     private TileState state = TileState.EMPTY;
 

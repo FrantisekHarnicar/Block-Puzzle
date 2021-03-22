@@ -1,12 +1,13 @@
 package game.blockPuzzle.console;
 
+
+import game.entity.Comment;
+import game.entity.Rating;
+import game.entity.Score;
 import game.blockPuzzle.core.Field;
 import game.blockPuzzle.core.GameState;
 import game.blockPuzzle.core.ObjectTile;
 import game.blockPuzzle.core.Tile;
-import game.entity.Comment;
-import game.entity.Rating;
-import game.entity.Score;
 import game.service.*;
 
 import java.util.Date;
@@ -21,7 +22,7 @@ public class Console {
     private static final Pattern YES_OR_NO_PATTERN = Pattern.compile("([YN])");
     private static final Pattern RATING_PATTERN = Pattern.compile("([1-5])");
 
-    private final Field field;
+    private Field field;
 
     private final Scanner scanner = new Scanner(System.in);
     private final ScoreServiceJDBC scoreService = new ScoreServiceJDBC();
@@ -31,6 +32,9 @@ public class Console {
     private String userComment;
     private static long startTime;
     Date date = new Date();
+    private int nextLevel = 1;
+    private final int LEVELS = 5;
+    private int score = 0;
 
 
     public Console (Field field){
@@ -44,14 +48,20 @@ public class Console {
         System.out.println("---------------------------------");
         startTime = System.currentTimeMillis();
 
-        do{
+        do {
+            do {
+                System.out.println("LEVEL: " + nextLevel);
+                printField();
+                System.out.println("---------------------------------");
+                printUselessObject();
+                userInput();
+            } while (field.getState() == GameState.PLAYING);
+            System.out.println("YOU SOLVED THIS LEVEL");
             printField();
-            printUselessObject();
-            userInput();
-        }while (field.getState() == GameState.PLAYING);
-        System.out.println("---------------------------------");
+            System.out.println("---------------------------------");
+            nextLevel++;
+        }while (nextLevel());
         writeScore();
-        printField();
         System.out.println("---------------------------------");
         printTopScores();
         System.out.println("---------------------------------");
@@ -62,6 +72,30 @@ public class Console {
         userChoiceRating();
         System.out.println("---------------------------------");
     }
+
+    private boolean nextLevel() {
+        if(nextLevel == LEVELS+1){
+            System.out.println("You WIN this game!!! Congratulate.");
+            return false;
+        }
+        score =+ field.getScore();
+        System.out.println("Your score: " + score);
+        System.out.print("Next level(Y/N): ");
+        String line = scanner.nextLine().toUpperCase();
+        Matcher matcher = YES_OR_NO_PATTERN.matcher(line);
+        if(matcher.matches()) {
+            if ("Y".equals(line)) {
+                field = new Field(nextLevel);
+                return true;
+
+            }else {
+                System.out.println("OK. As you want.");
+            }
+        }
+
+        return false;
+    }
+
     public static long getTime(){
         return startTime;
     }
@@ -133,30 +167,35 @@ public class Console {
 
             if (matcher.group(2).equals("A")) {
                 if(matcher.group(1).equals("R")){
+                    System.out.println("Remove object A");
                     field.remove_object(field.getObjectA());
                 }else
                 field.move(row, column, field.getObjectA());
             }
             if (matcher.group(2).equals("B")) {
                 if(matcher.group(1).equals("R")){
+                    System.out.println("Remove object B");
                     field.remove_object(field.getObjectB());
                 }else
                 field.move(row, column, field.getObjectB());
             }
             if (matcher.group(2).equals("C")) {
                 if(matcher.group(1).equals("R")){
+                    System.out.println("Remove object C");
                     field.remove_object(field.getObjectC());
                 }else
                 field.move(row, column, field.getObjectC());
             }
             if (matcher.group(2).equals("D")) {
                 if(matcher.group(1).equals("R")){
+                    System.out.println("Remove object D");
                     field.remove_object(field.getObjectD());
                 }else
                 field.move(row, column, field.getObjectD());
             }
             if (matcher.group(2).equals("E")) {
                 if(matcher.group(1).equals("R")){
+                    System.out.println("Remove object E");
                     field.remove_object(field.getObjectE());
                 }else
                 field.move(row, column, field.getObjectE());
@@ -175,7 +214,7 @@ public class Console {
     }
 
     private void userName(){
-        System.out.print("Enter name: ");
+        System.out.print("Enter name(1-10 number or later): ");
         String line = scanner.nextLine();
         Matcher matcher = NAME_PATTERN.matcher(line);
         if (matcher.matches()){
@@ -186,8 +225,8 @@ public class Console {
         }
     }
     private void writeScore(){
-        Commentervice service = new ScoreServiceJDBC();
-        service.addScore(new Score(GAME_NAME, userName, field.getScore(), date));
+        ScoreService service = new ScoreServiceJDBC();
+        service.addScore(new Score(GAME_NAME, userName, score, date));
     }
 
     private void userChoiceComment(){

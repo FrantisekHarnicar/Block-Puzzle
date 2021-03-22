@@ -1,6 +1,6 @@
 package Test;
 
-import game.service.Commentervice;
+import game.service.ScoreService;
 import game.service.ScoreServiceJDBC;
 import org.junit.Test;
 import game.entity.Score;
@@ -12,20 +12,20 @@ import static org.junit.Assert.assertEquals;
 
 public class ScoreServiceTest {
 
-    private Commentervice createService() {
+    private ScoreService createService() {
         return new ScoreServiceJDBC();
     }
 
     @Test
     public void testReset() {
-        Commentervice service = createService();
+        ScoreService service = createService();
         service.reset();
         assertEquals(0, service.getTopScores("mines").size());
     }
 
     @Test
     public void testAddScore() {
-        Commentervice service = createService();
+        ScoreService service = createService();
         service.reset();
         Date date = new Date();
         service.addScore(new Score("mines", "Jaro", 200, date));
@@ -42,7 +42,7 @@ public class ScoreServiceTest {
 
     @Test
     public void testAddScore3() {
-        Commentervice service = createService();
+        ScoreService service = createService();
         service.reset();
         Date date = new Date();
         service.addScore(new Score("BlockPuzzle", "Jaro", 200, date));
@@ -70,7 +70,7 @@ public class ScoreServiceTest {
 
     @Test
     public void testAddScore10() {
-        Commentervice service = createService();
+        ScoreService service = createService();
         for (int i = 0; i < 20; i++)
             service.addScore(new Score("mines", "Jaro", 200, new Date()));
         assertEquals(10, service.getTopScores("mines").size());
@@ -78,7 +78,7 @@ public class ScoreServiceTest {
 
     @Test
     public void testPersistance() {
-        Commentervice service = createService();
+        ScoreService service = createService();
         service.reset();
         service.addScore(new Score("mines", "Jaro", 200, new Date()));
 
