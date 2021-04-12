@@ -9,6 +9,8 @@ import game.blockPuzzle.core.GameState;
 import game.blockPuzzle.core.ObjectTile;
 import game.blockPuzzle.core.Tile;
 import game.service.*;
+import org.springframework.beans.factory.annotation.Autowired;
+
 
 import java.util.Date;
 import java.util.List;
@@ -25,8 +27,8 @@ public class Console {
     private Field field;
 
     private final Scanner scanner = new Scanner(System.in);
-    private final ScoreServiceJDBC scoreService = new ScoreServiceJDBC();
-    private final CommentServiceJDBC commentService = new CommentServiceJDBC();
+    //private final ScoreServiceJDBC scoreServiceJDBC = new ScoreServiceJDBC();
+    //private final CommentServiceJDBC commentService = new CommentServiceJDBC();
     public static final String GAME_NAME = "BlockPuzzle";
     private String userName;
     private String userComment;
@@ -36,15 +38,25 @@ public class Console {
     private final int LEVELS = 5;
     private int score = 0;
 
+    @Autowired
+    private ScoreService scoreService;
+    @Autowired
+    private CommentService commentService;
+    @Autowired
+    private RatingService ratingService;
 
+
+    public Console(Field field, ScoreService scoreService) {
+        this.field = field;
+        this.scoreService = scoreService;
+    }
     public Console(Field field) {
         this.field = field;
     }
 
+
     public void play() {
-        System.out.println("Top score.");
         printTopScores();
-        System.out.println("---------------------------------");
         userName();
         System.out.println("---------------------------------");
 
@@ -231,8 +243,7 @@ public class Console {
     }
 
     private void writeScore() {
-        ScoreService service = new ScoreServiceJDBC();
-        service.addScore(new Score(GAME_NAME, userName, score, date));
+        scoreService.addScore(new Score(GAME_NAME, userName, score, date));
     }
 
     private void userChoiceComment() {
@@ -258,8 +269,8 @@ public class Console {
     }
 
     private void writeComment() {
-        CommentService service = new CommentServiceJDBC();
-        service.addComment(new Comment(GAME_NAME, userName, userComment, date));
+
+        commentService.addComment(new Comment(GAME_NAME, userName, userComment, date));
         System.out.println("Thanks for your comment");
     }
 
@@ -271,7 +282,6 @@ public class Console {
     }
 
     private void userChoiceRating() {
-        RatingService ratingService = new RatingServiceJDBC();
         System.out.println("Average rating is " + ratingService.getAverageRating(GAME_NAME));
         System.out.print("Would you want take some rating?(Y/N): ");
         String orLine = scanner.nextLine().toUpperCase();
@@ -294,7 +304,6 @@ public class Console {
         Matcher matcher = RATING_PATTERN.matcher(rating);
         if (matcher.matches()) {
             int ratingInt = Integer.parseInt(matcher.group(1));
-            RatingService ratingService = new RatingServiceJDBC();
             ratingService.setRating(new Rating(GAME_NAME, userName, ratingInt, date));
             System.out.println("Thanks for your rating.");
         } else {

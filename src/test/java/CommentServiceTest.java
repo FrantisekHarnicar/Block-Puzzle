@@ -1,9 +1,10 @@
-package Test;
+/*
 
 import game.entity.Comment;
 import game.service.CommentService;
 import game.service.CommentServiceJDBC;
 import org.junit.Test;
+
 
 import java.util.Date;
 import java.util.List;
@@ -61,3 +62,4 @@ public class CommentServiceTest {
     }
 
 }
+*/

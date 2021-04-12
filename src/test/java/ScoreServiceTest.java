@@ -1,4 +1,4 @@
-package Test;
+/*
 
 import game.service.ScoreService;
 import game.service.ScoreServiceJDBC;
@@ -86,4 +86,4 @@ public class ScoreServiceTest {
         assertEquals(1, service.getTopScores("mines").size());
     }
 }
-
+*/

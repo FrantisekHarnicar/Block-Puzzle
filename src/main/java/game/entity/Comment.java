@@ -1,9 +1,16 @@
 package game.entity;
 
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import java.io.Serializable;
 import java.util.Date;
-
-public class Comment {
+@Entity
+public class Comment implements Serializable {
+    @Id
+    @GeneratedValue
+    private int ident;
     private String game;
 
     private String player;
@@ -17,6 +24,18 @@ public class Comment {
         this.player = player;
         this.comment = comment;
         this.commentedOn = commentedOn;
+    }
+
+    public Comment() {
+
+    }
+
+    public int getIdent() {
+        return ident;
+    }
+
+    public void setIdent(int ident) {
+        this.ident = ident;
     }
 
     public String getGame() {
@@ -54,7 +73,8 @@ public class Comment {
     @Override
     public String toString() {
         return "Comment{" +
-                "game='" + game + '\'' +
+                "ident=" + ident +
+                ", game='" + game + '\'' +
                 ", player='" + player + '\'' +
                 ", comment=" + comment +
                 ", commentedOn=" + commentedOn +

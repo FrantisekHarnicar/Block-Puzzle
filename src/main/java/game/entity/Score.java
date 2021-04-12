@@ -1,8 +1,16 @@
 package game.entity;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import java.io.Serializable;
 import java.util.Date;
+@Entity
+public class Score implements Serializable {
+    @Id
+    @GeneratedValue
+    private int ident;
 
-public class Score {
     private String game;
 
     private String player;
@@ -10,6 +18,9 @@ public class Score {
     private int points;
 
     private Date playedOn;
+    public Score() {
+    }
+
 
     public Score(String game, String player, int points, Date playedOn) {
         this.game = game;
@@ -17,6 +28,14 @@ public class Score {
         this.points = points;
         this.playedOn = playedOn;
     }
+    public int getIdent() {
+        return ident;
+    }
+
+    public void setIdent(int ident) {
+        this.ident = ident;
+    }
+
 
     public String getGame() {
         return game;
@@ -53,7 +72,8 @@ public class Score {
     @Override
     public String toString() {
         return "Score{" +
-                "game='" + game + '\'' +
+                "ident=" + ident +
+                ", game='" + game + '\'' +
                 ", player='" + player + '\'' +
                 ", points=" + points +
                 ", playedOn=" + playedOn +
