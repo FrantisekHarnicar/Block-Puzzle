@@ -28,6 +28,7 @@ public class SpringClient {
         return args -> ui.play();
     }
 
+
     @Bean
     public Console console(Field field) {
         return new Console(field);
