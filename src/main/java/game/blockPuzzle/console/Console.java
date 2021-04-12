@@ -231,7 +231,7 @@ public class Console {
     }
 
     private void userName() {
-        System.out.print("Enter name(1-10 number or later): ");
+        System.out.print("Enter name(1-10 number or letter): ");
         String line = scanner.nextLine();
         Matcher matcher = NAME_PATTERN.matcher(line);
         if (matcher.matches()) {
