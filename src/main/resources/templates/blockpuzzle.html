@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="css/styles.css">
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <h1>Block Puzzle</h1>
+    Remove:
+    <span th:if="${@blockPuzzleController.remove}">ACTIVE
+    <a href="/blockpuzzle/remove">Change to INACTIVE</a><br/>
+    </span>
+
+    <span th:if="not ${@blockPuzzleController.remove}">INACTIVE
+    <a href="/blockpuzzle/remove">Change to ACTIVE</a><br/>
+    </span>
+    <span th:utext="${@blockPuzzleController.getMainField()}"/>
+    <span th:utext="${@blockPuzzleController.printUselessObject()}"/>
+
+    <span th:if="not ${@blockPuzzleController.stateGame}">
+    <a href="/blockpuzzle/newlevel">New LEVEL</a><br/>
+    </span>
+
+</body>
+</html>

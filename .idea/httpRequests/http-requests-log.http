@@ -1,3 +1,74 @@
+GET http://localhost:8080/api/comment/BlockPuzzle
+Accept: application/json
+
+<> 2021-04-13T102536.200.json
+
+###
+
+GET http://localhost:8080/api/comment/blockpuzzle
+Accept: application/json
+
+<> 2021-04-13T102503.200.json
+
+###
+
+GET http://localhost:8080/api/comment/blockpuzzle
+Accept: application/json
+
+<> 2021-04-13T102232-1.200.json
+
+###
+
+POST http://localhost:8080/api/comment
+Content-Type: application/json
+
+{
+  "game": "blockpuzzle",
+  "player": "mansda",
+  "comment": "afad af dfsdfaf af a",
+  "commentedOn": "2021-04-22T12:40:33"
+}
+
+###
+
+GET http://localhost:8080/api/rating/avg/blockpuzzle
+Accept: application/json
+
+<> 2021-04-13T102232.200.json
+
+###
+
+POST http://localhost:8080/api/rating
+Content-Type: application/json
+
+{
+  "game": "blockpuzzle",
+  "player": "msdaa",
+  "rating": "1",
+  "ratedOn": "2021-04-22T12:40:33"
+}
+
+###
+
+GET http://localhost:8080/api/score/blockpuzzle
+Accept: application/json
+
+<> 2021-04-13T102231.200.json
+
+###
+
+POST http://localhost:8080/api/score
+Content-Type: application/json
+
+{
+  "game": "blockpuzzle",
+  "player": "insdgd",
+  "points": "1000",
+  "playedOn": "2021-04-22T12:40:33"
+}
+
+###
+
 GET http://localhost:8080/api/comment/blockpuzzle
 Accept: application/json
 
@@ -413,27 +484,6 @@ Content-Type: application/json
 }
 
 <> 2021-04-12T192511.500.json
-
-###
-
-GET http://localhost:8080/api/score/blockpuzzle
-Accept: application/json
-
-<> 2021-04-12T192337.500.json
-
-###
-
-POST http://localhost:8080/api/score
-Content-Type: application/json
-
-{
-  "game": "blockpuzzle",
-  "player": "ingrid",
-  "points": "1000",
-  "playedOn": "2021-04-22T12:40:33"
-}
-
-<> 2021-04-12T192328.500.json
 
 ###
 

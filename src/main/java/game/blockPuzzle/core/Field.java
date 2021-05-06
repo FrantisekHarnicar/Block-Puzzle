@@ -127,47 +127,50 @@ public class Field {
     }
 
     public void move(int plantX, int plantY, Tile[][] fullTile) {
-        for (int x = 0; x < rowCount; x++) {
-            for (int y = 0; y < columnCount; y++) {
-                if (!(fullTile[x][y] instanceof EmptyTile)) {
-                    clean(tiles, ((ObjectTile) fullTile[x][y]).getId());
-                }
-            }
-        }
-        if (plantX <= -1 || plantX >= rowCount) return;
-        if (plantY <= -1 || plantY >= columnCount) return;
-        int count = 0;
-        int rememberX = 0;
-        int rememberY = 0;
-        for (int x = 0; x < rowCount; x++) {
-            for (int y = 0; y < columnCount; y++) {
-                if (fullTile[x][y].getState() == FULL) {
-                    if (count == 0) {
-                        if (tiles[plantX][plantY] instanceof ObjectTile) {            // osetrenie ineho id
-                            clean(tiles, ((ObjectTile) fullTile[x][y]).getId());
-                            return;
-                        }
-                        tiles[plantX][plantY] = fullTile[x][y];                         // kopirovanie prvej pozicie
-                        rememberX = x;
-                        rememberY = y;
-                        count++;
-                    } else {
-                        if (plantX + (x - rememberX) <= -1 || plantX + (x - rememberX) >= rowCount) {                          // osetrenie mimo pola
-                            clean(tiles, ((ObjectTile) fullTile[x][y]).getId());
-                            return;
-                        }
-                        if (plantY + (y - rememberY) <= -1 || plantY + (y - rememberY) >= columnCount) {                       // osetrenie mimo pola
-                            clean(tiles, ((ObjectTile) fullTile[x][y]).getId());
-                            return;
-                        }
-                        if (tiles[plantX + (x - rememberX)][plantY + (y - rememberY)] instanceof ObjectTile) {            // osetrenie ineho id
-                            clean(tiles, ((ObjectTile) fullTile[x][y]).getId());
-                            return;
-                        }
-                        tiles[plantX + (x - rememberX)][plantY + (y - rememberY)] = fullTile[x][y];                     // kopirovanie ostatnych pozicii
+        if(GameState.PLAYING == state) {
+            for (int x = 0; x < rowCount; x++) {
+                for (int y = 0; y < columnCount; y++) {
+                    if (!(fullTile[x][y] instanceof EmptyTile)) {
+                        clean(tiles, ((ObjectTile) fullTile[x][y]).getId());
                     }
                 }
             }
+            if (plantX <= -1 || plantX >= rowCount) return;
+            if (plantY <= -1 || plantY >= columnCount) return;
+            int count = 0;
+            int rememberX = 0;
+            int rememberY = 0;
+            for (int x = 0; x < rowCount; x++) {
+                for (int y = 0; y < columnCount; y++) {
+                    if (fullTile[x][y].getState() == FULL) {
+                        if (count == 0) {
+                            if (tiles[plantX][plantY] instanceof ObjectTile) {            // osetrenie ineho id
+                                clean(tiles, ((ObjectTile) fullTile[x][y]).getId());
+                                return;
+                            }
+                            tiles[plantX][plantY] = fullTile[x][y];                         // kopirovanie prvej pozicie
+                            rememberX = x;
+                            rememberY = y;
+                            count++;
+                        } else {
+                            if (plantX + (x - rememberX) <= -1 || plantX + (x - rememberX) >= rowCount) {                          // osetrenie mimo pola
+                                clean(tiles, ((ObjectTile) fullTile[x][y]).getId());
+                                return;
+                            }
+                            if (plantY + (y - rememberY) <= -1 || plantY + (y - rememberY) >= columnCount) {                       // osetrenie mimo pola
+                                clean(tiles, ((ObjectTile) fullTile[x][y]).getId());
+                                return;
+                            }
+                            if (tiles[plantX + (x - rememberX)][plantY + (y - rememberY)] instanceof ObjectTile) {            // osetrenie ineho id
+                                clean(tiles, ((ObjectTile) fullTile[x][y]).getId());
+                                return;
+                            }
+                            tiles[plantX + (x - rememberX)][plantY + (y - rememberY)] = fullTile[x][y];                     // kopirovanie ostatnych pozicii
+                        }
+                    }
+                }
+            }
+            isSolved();
         }
     }
 
