@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
+
+<div th:fragment="header">
+  <div class="banner">
+    <div class="banner_right">
+      <h2>
+        <a href="/">Block Puzzle</a>
+      </h2>
+      <span th:if="${@userController.logged}">
+    Logged as: <strong><span th:text="${@userController.loggedUser}"/></br></strong>
+        <a href="/logout">Logout</a></br>
+    </span>
+    </div>
+
+  </div>
+</div>
+
+
+</html>

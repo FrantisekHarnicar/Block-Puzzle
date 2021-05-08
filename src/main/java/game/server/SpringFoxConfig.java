@@ -1,4 +1,4 @@
-/*package game.server;
+package game.server;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -16,9 +16,9 @@ public class SpringFoxConfig {
     public Docket api() {
         return new Docket(DocumentationType.SWAGGER_2)
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("sk.tuke.gamestudio.server.webservice"))
-//                .apis(RequestHandlerSelectors.any())
+                .apis(RequestHandlerSelectors.basePackage("game.server.webservice"))
+                .apis(RequestHandlerSelectors.any())
                 .paths(PathSelectors.any())
                 .build();
     }
-}*/
+}

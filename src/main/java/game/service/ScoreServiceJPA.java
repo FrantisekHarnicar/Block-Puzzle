@@ -24,7 +24,7 @@ public class ScoreServiceJPA implements ScoreService {
     public List<Score> getTopScores(String game) {
         return entityManager.createQuery("select s from Score s where s.game = :game order by s.points desc")
                 .setParameter("game", game)
-                .setMaxResults(10).getResultList();
+                .setMaxResults(5).getResultList();
 
     }
 

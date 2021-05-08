@@ -1,4 +1,279 @@
 img {
+    width: 40px;
+    height: 40px;
+}
+.position_body{
+    width: 65%;
+    margin: 0 auto;
+    text-align: center;
+}
+.banner_right{
+    display: flex;
+    justify-content: space-between;
+    padding: 2em;
+    background-color:#60c7c1 ;
+    margin-bottom: 1em;
+}
+.banner_right span{
+    text-align: right;
+}
+.banner_right a{
+    color: black;
+
+}
+.main_field{
+  margin: 0 auto;
+    width: 222px;
+
+}
+.main_table{
+    margin: 0 auto;
+}
+.object{
+    display: flex;
+    justify-content: center;
+
+}
+.service_field{
+    display: flex;
+    justify-content: space-evenly;
+    align-content: center;
+
+}
+.side_buttons{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+
+/*******************
+REGISTRATION AND LOGIN
+ *******************/
+.avatar img{
     width: 60px;
     height: 60px;
 }
+body {
+    font-family: 'Varela Round', sans-serif;
+}
+.modal-login {
+    color: #636363;
+    width: 350px;
+}
+.modal-login .modal-content {
+    padding: 20px;
+    border-radius: 5px;
+    border: none;
+}
+.modal-login .modal-header {
+    border-bottom: none;
+    position: relative;
+    justify-content: center;
+}
+.modal-login h4 {
+    text-align: center;
+    font-size: 26px;
+    margin: 30px 0 -15px;
+}
+.modal-login .form-control:focus {
+    border-color: #70c5c0;
+}
+.modal-login .form-control, .modal-login .btn {
+    min-height: 40px;
+    border-radius: 3px;
+}
+.modal-login .close {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+}
+.modal-login .modal-footer {
+    background: #ecf0f1;
+    border-color: #dee4e7;
+    text-align: center;
+    justify-content: center;
+    margin: 0 -20px -20px;
+    border-radius: 5px;
+    font-size: 13px;
+}
+.modal-login .modal-footer a {
+    color: #999;
+}
+.modal-login .avatar {
+    position: absolute;
+    margin: 0 auto;
+    left: 0;
+    right: 0;
+    top: -70px;
+    width: 95px;
+    height: 95px;
+    border-radius: 50%;
+    z-index: 9;
+    background: #60c7c1;
+    padding: 15px;
+    box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.1);
+}
+.modal-login .avatar img {
+    width: 100%;
+}
+.modal-login.modal-dialog {
+    margin-top: 80px;
+}
+.modal-login .btn, .modal-login .btn:active {
+    color: #fff;
+    border-radius: 4px;
+    background: #60c7c1 !important;
+    text-decoration: none;
+    transition: all 0.4s;
+    line-height: normal;
+    border: none;
+}
+.modal-login .btn:hover, .modal-login .btn:focus {
+    background: #45aba6 !important;
+    outline: none;
+}
+.trigger-btn {
+    display: inline-block;
+
+}
+/*******************
+REGISTRATION AND LOGIN
+ *******************/
+
+/*******************
+        BUTTON
+ *******************/
+
+.button {
+    display: inline-block;
+    border-radius: 4px;
+    background-color: #45aba6 !important;
+    border: none;
+    color: #FFFFFF;
+    text-align: center;
+    font-size: 28px;
+    padding: 20px;
+    width: 200px;
+    transition: all 0.5s;
+    cursor: pointer;
+    margin: 5px;
+}
+
+.button span {
+    cursor: pointer;
+    display: inline-block;
+    position: relative;
+    transition: 0.5s;
+}
+
+.button span:after {
+    content: '\00bb';
+    position: absolute;
+    opacity: 0;
+    top: 0;
+    right: -20px;
+    transition: 0.5s;
+}
+
+.button:hover span {
+    padding-right: 25px;
+}
+
+.button:hover span:after {
+    opacity: 1;
+    right: 0;
+}
+/*********************
+    BUTTON_remove
+ **********************/
+
+.button_game {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 20px;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    outline: none;
+    color: #fff;
+    background-color: #45aba6 !important;
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 9px #999;
+}
+
+.button_game:hover {background-color: #3b9792 !important}
+
+.button_game:active {
+    background-color: #327D79FF !important;
+    box-shadow: 0 5px #666;
+    transform: translateY(4px);
+}
+
+/*********************
+    BUTTON_next
+ **********************/
+
+.button_next {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 20px;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    outline: none;
+    color: #151515;
+    background-color: #23c90a !important;
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 9px #999;
+}
+
+.button_next:hover {background-color: #1c9707 !important}
+
+.button_next:active {
+    background-color: #146a05 !important;
+    box-shadow: 0 5px #666;
+    transform: translateY(4px);
+}
+/*********************
+    BUTTON_end
+ **********************/
+
+.button_end {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 20px;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    outline: none;
+    color: #151515;
+    background-color: #cb0707 !important;
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 9px #999;
+}
+
+.button_end:hover {background-color: #a00404 !important}
+
+.button_end:active {
+    background-color: #7f0101 !important;
+    box-shadow: 0 5px #666;
+    transform: translateY(4px);
+}
+/*************************
+            table
+ *************************/
+.score_table table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.score_table th, .score_table td {
+    text-align: left;
+    padding: 8px;
+}
+
+.score_table tr:nth-child(even) {background-color: #f2f2f2;}

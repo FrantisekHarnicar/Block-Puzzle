@@ -2,6 +2,7 @@ package game.blockPuzzle.core;
 
 
 import game.blockPuzzle.console.Console;
+import game.server.controller.BlockPuzzleController;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -41,7 +42,7 @@ public class Field {
     }
 
     public int getScore() {
-        int score = rowCount * columnCount * 50 - (int) (System.currentTimeMillis() - Console.getTime()) / 1000;
+        int score = rowCount * columnCount * 50 - (int) (System.currentTimeMillis() - BlockPuzzleController.getTime()) / 1000;
         return Math.max(score, 0);
 
     }
@@ -237,5 +238,8 @@ public class Field {
     public GameState getState() {
         isSolved();
         return state;
+    }
+    public void setGameState(GameState gameState){
+        state = gameState;
     }
 }

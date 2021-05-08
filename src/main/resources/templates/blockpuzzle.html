@@ -2,26 +2,80 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <html lang="en">
 <head>
-    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="/css/styles.css">
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
 <body>
-    <h1>Block Puzzle</h1>
-    Remove:
-    <span th:if="${@blockPuzzleController.remove}">ACTIVE
-    <a href="/blockpuzzle/remove">Change to INACTIVE</a><br/>
-    </span>
+<div class="heather" th:replace="fragments::header"/>
 
-    <span th:if="not ${@blockPuzzleController.remove}">INACTIVE
-    <a href="/blockpuzzle/remove">Change to ACTIVE</a><br/>
-    </span>
-    <span th:utext="${@blockPuzzleController.getMainField()}"/>
-    <span th:utext="${@blockPuzzleController.printUselessObject()}"/>
+    <div class="service_field">
+        <div class="score_table">
+            <table>
+                <thead>
+                <tr>
+                    <th>Player</th>
+                    <th>Points</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="score: ${scores}">
+                    <td th:text="${score.player}"></td>
+                    <td th:text="${score.points}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
 
-    <span th:if="not ${@blockPuzzleController.stateGame}">
-    <a href="/blockpuzzle/newlevel">New LEVEL</a><br/>
-    </span>
+        <span  th:utext="${@blockPuzzleController.getMainField()}"/>
 
+        <div class="side_buttons">
+            <div class="remove">
+                <span th:if="${@blockPuzzleController.remove}">
+                    <a href="/blockpuzzle/remove"><button class="button_game">ADD</button></a><br/>
+                </span>
+
+                <span th:if="not ${@blockPuzzleController.remove}">
+                    <a href="/blockpuzzle/remove"><button class="button_game">REMOVE</button></a><br/>
+                </span>
+            </div>
+           <div class="end">
+               <span th:if="${@blockPuzzleController.gameOver}">
+                    <a href="/blockpuzzle/endgame"><button class="button_end">END GAME</button></a><br/>
+               </span>
+           </div>
+            <div class="next">
+                <span th:if="not${@blockPuzzleController.getViewButtons()}">
+                <a href="/blockpuzzle/newlevel"><button class="button_next">NEXT LEVEL</button></a><br/>
+                </span>
+           </div>
+
+        </div>
+    </div>
+
+    <div class="object" th:utext="${@blockPuzzleController.printUselessObject()}"/>
+
+
+
+<div class="score_table">
+    <table>
+        <thead>
+        <tr>
+            <th>Player</th>
+            <th>Comment</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="comment: ${comments}">
+            <td th:text="${comment.player}"></td>
+            <td th:text="${comment.comment}"></td>
+        </tr>
+        </tbody>
+    </table>
+
+        Average Rating
+        <span th:text="${avgRating}"/>
+
+</div>
 </body>
 </html>
