@@ -4,6 +4,8 @@ import game.blockPuzzle.core.Field;
 import game.blockPuzzle.core.GameState;
 import game.blockPuzzle.core.ObjectTile;
 import game.blockPuzzle.core.Tile;
+import game.entity.Comment;
+import game.entity.Rating;
 import game.entity.Score;
 import game.service.CommentService;
 import game.service.RatingService;
@@ -74,10 +76,12 @@ public class BlockPuzzleController {
                 if(field.getState() == GameState.SOLVED)
                     score += field.getScore();
             }
-            if(level == 5 || (endGame && userController.getLoggedUser() != null)) {
+            if(level == 5 || endGame) {
                 endGame = false;
                 field.setGameState(GameState.SOLVED);
-                scoreService.addScore(new Score("BlockPuzzle", userController.getLoggedUser(), score, new Date()));
+                if(userController.getLoggedUser() != null) {
+                    scoreService.addScore(new Score("BlockPuzzle", userController.getLoggedUser(), score, new Date()));
+                }
             }
         }catch (Exception e){
             System.out.println("Daco si posral v blockpuzzle metode");
@@ -106,9 +110,14 @@ public class BlockPuzzleController {
         return startTime;
     }
 
-    @RequestMapping("/remove")
-    public String remove() {
-        remove = !remove;
+    @RequestMapping("/comment")
+    public String comment(String comment) {
+        commentService.addComment(new Comment("BlockPuzzle", userController.getLoggedUser(),comment, new Date()));
+        return "redirect:/blockpuzzle";
+    }
+    @RequestMapping("/rating")
+    public String rating(@RequestParam String rate) {
+        ratingService.setRating(new Rating("BlockPuzzle", userController.getLoggedUser(),Integer.parseInt(rate),new Date()));
         return "redirect:/blockpuzzle";
     }
 
@@ -116,6 +125,11 @@ public class BlockPuzzleController {
     public String endGame() {
         endGame = true;
         gameOver = !gameOver;
+        return "redirect:/blockpuzzle";
+    }
+    @RequestMapping("/remove")
+    public String remove() {
+        remove = !remove;
         return "redirect:/blockpuzzle";
     }
 
@@ -139,6 +153,16 @@ public class BlockPuzzleController {
         }else {
             return false;
         }
+    }
+    public String avgRating(){
+        StringBuilder sb = new StringBuilder();
+        sb.append("<div class='stars'>");
+        int avgRating = ratingService.getAverageRating("BlockPuzzle");
+        for(int i = 0; i < avgRating; i++){
+            sb.append(String.format("<img src='/images/BlockPuzzle/star.png'>\n"));
+        }
+        sb.append("</div>");
+        return sb.toString();
     }
 
     public String getMainField() {
